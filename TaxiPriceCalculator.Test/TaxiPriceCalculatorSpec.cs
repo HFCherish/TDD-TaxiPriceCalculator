@@ -31,6 +31,15 @@ namespace TaxiPriceCalculator.Test
             var taxiPriceCalculator = new TaxiPriceCalculator();
             Assert.Equal(price, taxiPriceCalculator.Cost(distance, waitingTime));
         }
+        
+        [Theory]
+        [InlineData(7, 2.1, new[]{1000/3600.0, 2000/3600.0, 5000/3600.0, 119/3600.0, 120/3600.0, 121/3600.0, 119/3600.0})]
+        public void should_return_correct_price_based_on_distance_with_additional_fee_and_waiting_time_given_kilos_by_seconds(double price, double distance, double[] kilosBySeconds)
+        {
+            var taxiPriceCalculator = new TaxiPriceCalculator();
+            Assert.Equal(price, taxiPriceCalculator.Cost(distance, kilosBySeconds));
+        }
+        
 
     }
     
