@@ -7,6 +7,7 @@ namespace TaxiPriceCalculator
     public class WaitingTimeCalculator
     {
         private const int WAITING_SPEED_THRESHOLD = 120;    // km/s
+        private const int SECONDS_OF_HOUR = 3600;
         private readonly List<double> _kilosBySecond;
 
         public WaitingTimeCalculator(double[] kilosBySecond)
@@ -25,9 +26,14 @@ namespace TaxiPriceCalculator
             if (startIndex >= endIndex) return 0;
             return _kilosBySecond
                 .GetRange(startIndex, endIndex - startIndex)
-                .Count(k => k * 3600 < WAITING_SPEED_THRESHOLD);
+                .Count(IsLowerThanSpeedThreshHold);
         }
-        
+
+        private static bool IsLowerThanSpeedThreshHold(double k)
+        {
+            return k * SECONDS_OF_HOUR < WAITING_SPEED_THRESHOLD;
+        }
+
         public long CalcWaitingTime(double startMileages)
         {
             return CalcWaitingTime(GetThreshIndex(startMileages), _kilosBySecond.Count);

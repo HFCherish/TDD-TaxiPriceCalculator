@@ -8,14 +8,23 @@ namespace TaxiPriceCalculator.Test
         [Theory]
         [InlineData(2, 0, new[]{100/3600.0, 119/3600.0, 120/3600.0, 121/3600.0})]
         [InlineData(1, 1, new[]{100/3600.0, 119/3600.0, 120/3600.0, 121/3600.0})]
-        [InlineData(0, 4, new[]{100/3600.0, 119/3600.0, 120/3600.0, 121/3600.0})]
-        [InlineData(0, 5, new[]{100/3600.0, 119/3600.0, 120/3600.0, 121/3600.0})]
         void should_calculate_waiting_time_when_speed_is_lower_than_120_km_per_hour(int waitingSeconds, int startIndex, double[] kilosBySecond)
         {
             var waitingTimeCalculator = new WaitingTimeCalculator(kilosBySecond);
 
             Assert.Equal(waitingSeconds, waitingTimeCalculator.CalcWaitingTime(startIndex, kilosBySecond.Length));
         }
+        
+        [Theory]
+        [InlineData(0, 4, new[]{100/3600.0, 119/3600.0, 120/3600.0, 121/3600.0})]
+        [InlineData(0, 5, new[]{100/3600.0, 119/3600.0, 120/3600.0, 121/3600.0})]
+        void should_calculate_waiting_time_as_0_when_start_index_is_out_of_range(int waitingSeconds, int startIndex, double[] kilosBySecond)
+        {
+            var waitingTimeCalculator = new WaitingTimeCalculator(kilosBySecond);
+
+            Assert.Equal(waitingSeconds, waitingTimeCalculator.CalcWaitingTime(startIndex, kilosBySecond.Length));
+        }
+
         
         [Theory]
         [InlineData(2, 0, new[]{100/3600.0, 119/3600.0, 120/3600.0, 121/3600.0})]
